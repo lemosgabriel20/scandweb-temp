@@ -1,0 +1,28 @@
+.ProductList {
+  margin: 40px 25px 40px 25px;
+  border-bottom: 2px solid black;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+}
+
+.header-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 220px;
+  margin-right: 25px;
+}
+
+.header-buttons button {
+  padding: 0 10px 0 10px; 
+}
+
+.display {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 60px;
+}

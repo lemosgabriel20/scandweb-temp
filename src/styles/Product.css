@@ -1,0 +1,19 @@
+.Product {
+  padding: 20px;
+  border: 1px solid black;
+}
+
+.delete-checkbox {
+  transform: scale(1.3);
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.description p {
+  font-size: 20px;
+}

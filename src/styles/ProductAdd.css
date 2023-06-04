@@ -1,0 +1,21 @@
+.ProductAdd {
+  margin: 40px 25px 40px 25px;
+  border-bottom: 2px solid black;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+}
+
+.header-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+  margin-right: 25px;
+}
+
+.header-buttons button {
+  padding: 0 10px 0 10px; 
+}
