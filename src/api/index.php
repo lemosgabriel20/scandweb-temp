@@ -6,5 +6,8 @@ header('Access-Control-Allow-Header: *');
 require_once(__DIR__ . '/App/Database.php');
 require_once(__DIR__ . '/App/AccessAPI.php');
 
-$access = new App\Api\AccessAPI(method: $_SERVER["REQUEST_METHOD"], body: $_REQUEST);
+use App\Api\AccessAPI;
+
+
+$access = new AccessAPI(method: $_SERVER["REQUEST_METHOD"], body: $_REQUEST);
 ?>

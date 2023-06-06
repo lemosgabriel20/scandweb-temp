@@ -6,24 +6,31 @@ use PDO;
 
 class Database {
 
-  private string $password = 'password';
-  private string $user = 'root';
-  private string $port = '3308';
-  private string $dbname = 'storepage';
-  private string $host = '127.0.0.1';
+  private static $DB;
+  public static string $password = 'password';
+  public static string $user = 'root';
+  public static string $port = '3308';
+  public static string $dbname = 'storepage';
+  public static string $host = '127.0.0.1';
 
-  public function init() {
-    $password = $this->password;
-    $user = $this->user;
-    $port = $this->port;
-    $dbname = $this->dbname;
-    $host = $this->host;
+  public static function init() {
+    $password = static::$password;
+    $user = static::$user;
+    $port = static::$port;
+    $dbname = static::$dbname;
+    $host = static::$host;
+
     try {
+      
       $DB = new PDO("mysql:host=$host;dbname=$dbname;port=$port;", $user, $password);
-      return $DB;
+      static::$DB = $DB;
+
     } catch(\PDOException $e) {
-      throw new \PDOException($e->getMessage(), $e->getCode());
+        throw new \PDOException($e->getMessage(), $e->getCode());
     }
+  }
+  public static function DB() {
+    return static::$DB;
   }
 }
 ?>

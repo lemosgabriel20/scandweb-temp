@@ -3,22 +3,29 @@ import '../styles/TypeInput.css';
 
 function TypeInput ({ type, setInfo }) {
   const [display, setDisplay] = useState();
-  const [weight, setWeight] = useState(0);
-  const [size, setSize] = useState(0);
-  const [target, setTarget] = useState({ value: '' });
-  const [dimensions, setDimensions] = useState({
-    height: 0,
-    width: 0,
-    length: 0,
-  });
+  const [weight, setWeight] = useState({ weight: 0 });
+  const [size, setSize] = useState({ size: 0 });
+  const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [length, setLength] = useState(0);
+  const [val, setVal] = useState(0);
 
   useEffect(() => {
+    setWeight({ weight: 0 });
+    setSize({ size: 0 });
+    setHeight(0);
+    setWidth(0);
+    setLength(0);
     setDisplay(types[type]);
-    target.value = '';
   }, [type]);
 
   useEffect(() => {
     if (type === 'furniture') {
+      const dimensions = {
+        height,
+        width,
+        length
+      };
       setInfo(dimensions);
     }
     if (type === 'book') {
@@ -27,8 +34,14 @@ function TypeInput ({ type, setInfo }) {
     if (type == 'dvd') {
       setInfo(size);
     }
-  }, [type, dimensions, size, weight]);
+  }, [type, height, width, length, size, weight]);
 
+  const buceta = evt => {
+    setSize({ size: Number(evt.target.value) })
+    const a = 1;
+    setVal((prev) => prev + a);
+    console.log(val)
+  }
 
   const types = {
     dvd: (
@@ -38,9 +51,10 @@ function TypeInput ({ type, setInfo }) {
             <input
               id="size"
               type="number"
-              onChange={ (evt) => setTarget(evt.target) }
-              onInput={ (evt) => setSize(Number(evt.target.value))}
+              onChange={ buceta }
+              //value={ size.size }
             />
+            {val}
         </label>
         <p>Please provide the size in MB format.</p>
       </div>
@@ -53,8 +67,8 @@ function TypeInput ({ type, setInfo }) {
           <input
             id="weight"
             type="number"
-            onChange={ (evt) => setTarget(evt.target) }
-            onInput={ (evt) => setWeight(Number(evt.target.value)) }
+            onInput={ (evt) => setWeight({ weight: Number(evt.target.value) }) }
+            placeholder={ width.width }
           />
         </label>
         <p>Please provide the weight in KG format.</p>
@@ -68,8 +82,8 @@ function TypeInput ({ type, setInfo }) {
           <input
             id="height"
             type="number"
-            onChange={ (evt) => setTarget(evt.target) }
-            onInput={ (evt) => setDimensions({...dimensions, height: Number(evt.target.value)})}
+            onInput={ (evt) => setHeight(Number(evt.target.value)) }
+            placeholder={ height.height }
           />
         </label>
         <label>
@@ -77,8 +91,8 @@ function TypeInput ({ type, setInfo }) {
           <input
             id="width"
             type="number"
-            onChange={ (evt) => setTarget(evt.target) }
-            onInput={ (evt) => setDimensions({...dimensions, width: Number(evt.target.value)})}
+            onInput={ (evt) => setWidth(Number(evt.target.value)) }
+            placeholder={ width.width }
           />
         </label>
         <label>
@@ -86,8 +100,8 @@ function TypeInput ({ type, setInfo }) {
           <input
             id="length"
             type="number"
-            onChange={ (evt) => setTarget(evt.target) }
-            onInput={ (evt) => setDimensions({...dimensions, length: Number(evt.target.value)})}
+            onInput={ (evt) => setLength(Number(evt.target.value)) }
+            placeholder={ length.length }
           />
         </label>
         <p>Please provide dimensions in HxWxL format.</p>
