@@ -1,6 +1,8 @@
-.ProductAdd {
-  margin: 40px 25px 40px 25px;
-  border-bottom: 2px solid black;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90vh;
 }
 
 .header {
@@ -12,7 +14,7 @@
 .header-buttons {
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 200px;
   margin-right: 25px;
 }
 

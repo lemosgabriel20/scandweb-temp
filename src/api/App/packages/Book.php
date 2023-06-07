@@ -8,13 +8,7 @@ class Book extends Products {
 
   private string $table = 'books';
 
-  public function create($data) {
-      $DB = Database::DB();
-
-      if(Products::checkSKU($data['sku'])) {
-        echo 'SKU ALREADY EXIST';
-        exit();
-      }
+  public function prepareToCreate($data) {
 
       $table = $this->table;
 
@@ -28,12 +22,8 @@ class Book extends Products {
 
       $sql = "INSERT INTO $table (sku, type, name, price, weight)
               VALUES (:sku, :type, :name, :price, :weight)";
-
-      $stmt = $DB->prepare($sql);
-
-      $stmt->execute($execution);
-
-      Products::insert($data);
+      
+      $this->create($data, $sql, $execution);
   }
 }
 ?>

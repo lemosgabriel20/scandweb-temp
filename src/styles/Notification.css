@@ -1,4 +1,12 @@
 .error {
-    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    margin-left: 600px;
+    background-color: rgb(179, 29, 29);
+    border-radius: 5px;
     color: white;
+    height: 40px;
+    width: 600px;
 }

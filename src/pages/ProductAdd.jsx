@@ -1,11 +1,13 @@
-import { useDebugValue, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import AddForm from '../components/AddForm';
 import Notification from '../components/Notification';
+import Footer from '../components/Footer';
 import '../styles/ProductAdd.css'
 
 function ProductAdd() {
   const navigate = useNavigate();
+  const [saveDisablaed, setDisabled] = useState(false);
   const [data, setData] = useState({
     sku: '',
     name: '',
@@ -32,23 +34,19 @@ function ProductAdd() {
   });
 
   const fetchAPI = () => {
-    console.log(data);
-    fetch('http://localhost/storepage/src/api/', {
+    setDisabled(true);
+    fetch('/api/', {
       method: 'POST',
       body: JSON.stringify(data),
     })
       .then(response => {
-        response.text();
         if (response.status === 409) {
           setNotify({ sku: { on: true, type: 'error', message: 'SKU already registered.' }});
+          setDisabled(false);
         } else {
-          setNotify({ sku: { on: false, type: undefined, message: undefined }});
+          setNotify({ sku: { on: false, type: undefined, message: undefined }});      
+          navigate('/');
         }
-      })
-      .then((data)=> {
-        // Sku errors
-
-        console.log(data);
       });
   }
 
@@ -97,27 +95,30 @@ function ProductAdd() {
     }
     
     fetchAPI();
-
   }
 
   return (
-    <div className='ProductAdd'>
-      <header className='header'>
-        <h1>Product Add</h1>
-        <div className='header-buttons'>
-          <button onClick={ handleSubmit }>Save</button>
-          <button onClick={ () => navigate('/') }>Cancel</button>
-        </div>
-      </header>
-      {
-        Object.values(notify).map((notification, index) => {
-          if (notification.on) {
-           return <Notification key={ index } type={ notification.type } message={ notification.message } />
-          }
-          return null;
-        })
-      }
-      <AddForm data={ data } setData={ setData }/>
+    <div className='container'>
+      <div className='ProductAdd'>
+        <header className='header'>
+          <h1>Product Add</h1>
+          <div className='header-buttons'>
+            <button onClick={ handleSubmit } disabled={ saveDisablaed }>Save</button>
+            <button onClick={ () => navigate('/') }>Cancel</button>
+          </div>
+        </header>
+        {
+          Object.values(notify).map((notification, index) => {
+            if (notification.on) {
+            return <Notification key={ index } type={ notification.type } message={ notification.message } />
+            }
+            return null;
+          })
+        }
+        <AddForm data={ data } setData={ setData }/>
+
+      </div>
+      <Footer/>
     </div>
   );
 };

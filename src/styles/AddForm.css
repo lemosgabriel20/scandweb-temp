@@ -1,4 +1,31 @@
 form {
   display: flex;
   flex-direction: column;
+  padding: 40px;
+}
+
+form, label {
+  font-size: 25px;
+}
+
+form, input {
+  font-size: 20px;
+}
+
+.input-container {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.type-switcher {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.type-switcher, select {
+  font-size: 20px;
 }

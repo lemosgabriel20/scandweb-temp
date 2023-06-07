@@ -1,23 +1,30 @@
-.ProductList {
-  margin: 40px 25px 40px 25px;
-  border-bottom: 2px solid black;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90vh;
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
-  border-bottom: 2px solid black;
+  justify-content: space-around;
 }
-
 .header-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 220px;
-  margin-right: 25px;
+  width: 3000px;
 }
 
 .header-buttons button {
   padding: 0 10px 0 10px; 
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  height: 35px;
+}
+
+.header-buttons button:hover {
+  background-color: lightgrey;
 }
 
 .display {
@@ -25,4 +32,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 60px;
+}
+
+.desc, p {
+  font-size: 18px;
+  margin-left: 20px;
 }

@@ -1,48 +1,71 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import Product from '../components/Product';
 import '../styles/ProductList.css'
+import Footer from '../components/Footer';
 
 function ProductList() {
-  //Please note, that on product list page product should not be split by product types - they should be sorted by primary key in database.
-  // Call to api to get all products
   const navigate = useNavigate();
+  const [timer, setTimer] = useState(0);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost/storepage/src/api/')
-      .then(response => response.json())
-      .then((data) => {
-        console.log(data)
-        setProducts(data);
-      });
-  }, [])
+    const time = 200;
+    const timeout = time*6;
+    
+    if (timer < timeout) {
+      const interval = setInterval(() => {
+        fetchProducts();
+        setTimer(prev => prev + time);
+      }, time);
+
+    return () => clearInterval(interval);
+    }
+  }, [timer]);
+
+  const fetchProducts = () => {
+    fetch('/api/')
+    .then(response => response.json())
+    .then((data) => {
+      setProducts(data);
+    });
+  }
+
+  const onMassDelete = () => {
+
+    setTimer(0);
+    const data = { massDelete: true }
+    fetch('/api/', {
+      method: 'DELETE',
+      body: JSON.stringify(data),
+    });
+  }
 
   return (
-    <div className='ProductList'>
-      <header className='header'>
-        <h1>Product List</h1>
-        <div className='header-buttons'>
-          <button onClick={ () => navigate('/addproduct') }>ADD</button>
-          <button id="#delete-product-btn">MASS DELETE</button>
-        </div>
-      </header>
-      <main className='display'>
-        {
-          products.map((product, index) => {
-            return (
-              <Product
-                key = { index }
-                sku = { product.sku }
-                name = { product.name }
-                price = { product.price }
-                data = { product }
-                misc = { product.type }
-              />
-            )
-          })
-        }
-      </main>
+    <div className='container'>
+      <div className='ProductList'>
+        <header className='header'>
+          <h1>Product List</h1>
+          <div className='header-buttons'>
+            <button onClick={ () => navigate('/addproduct') }>Add</button>
+            <button id="delete-product-btn" onClick={ onMassDelete }>Mass Delete</button>
+          </div>
+        </header>
+        <main className='display'>
+          {
+            products.map((product, index) => {
+              return (
+                <Product
+                  key = { index }
+                  data = { product }
+                  setTimer={ setTimer }
+                />
+              )
+            })
+          }
+        </main>
+      </div>
+      <Footer />
     </div>
   );
 };

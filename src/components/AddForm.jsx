@@ -17,59 +17,72 @@ function AddForm({ data, setData }) {
   }, [data.type]);
 
   return(
-    <form>
-      <label>SKU:
-      <input type="text" value={data.sku} onChange={ (e) => setData({...data, sku: e.target.value}) }/>
-      </label>
+    <form id="product_form">
+      <div className='input-container'>
+        <label htmlFor="sku">SKU:</label>
+        <input id="sku" type="text" value={data.sku} onChange={ (e) => setData({...data, sku: e.target.value}) }/>
+      </div>
 
-      <label> Name:
-      <input type="text" value={data.name} onChange={ (e) => setData({...data, name: e.target.value})}/>
-      </label>
+      <div className='input-container'>
+        <label htmlFor="name">Name:</label>
+        <input id="name" type="text" value={data.name} onChange={ (e) => setData({...data, name: e.target.value})}/>
+      </div>
 
-      <label> Price ($):
-      <input type="text" value={data.price} onChange={ (e) => setData({...data, price: e.target.value}) } />
-      </label>
+      <div className='input-container'>
+        <label htmlFor="price">Price ($):</label>
+        <input id="price" type="text" value={data.price} onChange={ (e) => setData({...data, price: e.target.value}) } />
+      </div>
 
-      <label> Type Switcher
-      <select onChange={(e) => setData({...data, type: e.target.value })} defaultValue="null">
-        <option disabled value="null"></option>
-        <option id="DVD" value="dvd">DVD</option>
-        <option id="Furniture" value="furniture">Furniture</option>
-        <option id="Book" value="book">Book</option>
-      </select>
-      </label>
+      <div className='type-switcher'>
+        <label htmlFor="productType">Type Switcher</label>
+        <select id="productType" onChange={(e) => setData({...data, type: e.target.value })} defaultValue="null">
+          <option disabled value="null"></option>
+          <option id="DVD" value="dvd">DVD</option>
+          <option id="Furniture" value="furniture">Furniture</option>
+          <option id="Book" value="book">Book</option>
+        </select>
+      </div>
+
       {
         (data.type === 'dvd') ? (
           <div>
-            <label> Size(MB):
-            <input type="text" value={data.info.size ? data.info.size : ''} onChange={(e) => setData({...data, info: {size: (e.target.value)}  })}/>
-            </label>
+            <div className='input-container'>
+              <label htmlFor="size">Size(MB):</label>
+              <input id="size"type="text" value={data.info.size ? data.info.size : ''} onChange={(e) => setData({...data, info: {size: (e.target.value)}  })}/>
+            </div>
+            <p className='desc'>Please provide size in MB format</p>
           </div>
         ) : null
       }
       {
         (data.type === 'book') ? (
           <div>
-            <label> Weight(KG):
-            <input type="text" value={data.info.weight ? data.info.weight : ''} onChange={(e) => setData({...data, info: {weight: (e.target.value)}  })}/>
-            </label>
+            <div className='input-container'>
+              <label htmlFor="weight">Weight(KG):</label>
+              <input id="weight" type="text" value={data.info.weight ? data.info.weight : ''} onChange={(e) => setData({...data, info: {weight: (e.target.value)}  })}/>
+            </div>
+            <p className='desc'>Please provide weight in KG format</p>
           </div>
         ) : null
       }
       {
         (data.type === 'furniture') ? (
           <div>
-            <label> Height(CM):
-            <input type="text" value={data.info.height ? data.info.height : ''} onChange={(e) => setData({...data, info: {...data.info, height: (e.target.value)} })}/>
-            </label>
-            
-            <label> Width(CM):
-            <input type="text" value={data.info.width ? data.info.width : ''} onChange={(e) => setData({...data, info: {...data.info, width: (e.target.value)} })}/>
-            </label>
+            <div className='input-container'>
+              <label htmlFor="height">Height(CM):</label>
+              <input id="height" type="text" value={data.info.height ? data.info.height : ''} onChange={(e) => setData({...data, info: {...data.info, height: (e.target.value)} })}/>
+            </div>
 
-            <label> Length(CM):
-            <input type="text" value={data.info.length ? data.info.length : ''} onChange={(e) => setData({...data, info: {...data.info, length: (e.target.value)} })}/>
-            </label>
+            <div className='input-container'>
+              <label htmlFor="width">Width(CM):</label>
+              <input id="width" type="text" value={data.info.width ? data.info.width : ''} onChange={(e) => setData({...data, info: {...data.info, width: (e.target.value)} })}/>
+            </div>
+
+            <div className='input-container'>
+              <label htmlFor="length"> Length(CM):</label>
+              <input id="length" type="text" value={data.info.length ? data.info.length : ''} onChange={(e) => setData({...data, info: {...data.info, length: (e.target.value)} })}/>
+            </div>
+            <p className='desc'>Please provide dimensions in HxWxL format</p>
           </div>
         ) : null
       }

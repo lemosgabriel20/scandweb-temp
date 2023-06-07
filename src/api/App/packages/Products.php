@@ -7,12 +7,17 @@ use PDO;
 
 class Products {
 
+  private PDO $DB;
   protected array $data;
   private string $table = 'products';
 
-  public static function getAll() {
+  public function __construct() {
+    $this->DB = Database::DB();
+  }
 
-    $DB = Database::DB();
+  public function getAll() {
+
+    $DB = $this->DB;
 
     $stmt = $DB->query('SELECT * FROM storepage.products');
 
@@ -27,13 +32,12 @@ class Products {
       $stmt = $DB->query("SELECT * FROM $table WHERE sku = '$sku' ");
       $newProducts[] = $stmt->fetch(PDO::FETCH_OBJ);
     }
-
     return json_encode($newProducts);
   }
 
-  protected static function insert($data) {
+  private function createProduct($data) {
 
-    $DB = Database::DB();
+    $DB = $this->DB;
     
     $execution = [
       "sku" => $data['sku'],
@@ -47,13 +51,67 @@ class Products {
     $stmt->execute($execution);
   }
 
-  protected static function checkSKU($sku) {
-    $DB = Database::DB();
+  private function checkSKU($sku) {
+    $DB = $this->DB;
+
     $sql = "SELECT * FROM products WHERE sku = '$sku'";
+
     $stmt = $DB->query($sql);
+
     $product = $stmt->fetch(PDO::FETCH_OBJ);
+
     return $product;
   }
+
+  private function deleteProductBySKU($sku) {
+    $DB = $this->DB;
+
+    $sql = "DELETE FROM products WHERE sku = '$sku'";
+
+    $stmt = $DB->prepare($sql);
+
+    $stmt->execute();
+  }
+
+  public function deleteAll() {
+    $DB = $this->DB;
+
+    $sql = "DELETE FROM products";
+
+    $stmt = $DB->prepare($sql);
+
+    $stmt->execute();
+  }
+
+  public function deleteBySKU($sku) {
+    $DB = $this->DB;
+
+    $table = $this->table;
+
+    $sql = "DELETE FROM $table WHERE sku = '$sku'";
+
+    $stmt = $DB->prepare($sql);
+
+    $stmt->execute();
+
+    $this->deleteProductBySKU($sku);
+  }
+
+  protected function create($data, $sql, $execution) {
+    $DB = $this->DB;
+
+    if($this->checkSKU($data['sku'])) {
+        http_response_code(409);
+        exit();
+    }
+
+    $stmt = $DB->prepare($sql);
+
+    $stmt->execute($execution);
+
+    $this->createProduct($data);
+  }
+
 }
 
 ?>

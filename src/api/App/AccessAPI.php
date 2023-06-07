@@ -24,11 +24,10 @@ class AccessAPI {
     $body = $this->body;
 
     if ($method === 'GET') {
-      echo Products::getAll();
-      http_response_code(200);
+      echo ($products->getAll());
     }
-
-    else if ($method === 'POST') {
+  
+    if ($method === 'POST') {
 
       $data = json_decode(file_get_contents("php://input"), true);
 
@@ -40,14 +39,38 @@ class AccessAPI {
 
       $modelObj = new $class();
 
-      $modelObj->create($data);
+      $modelObj->prepareToCreate($data);
 
       http_response_code(201);
     }
 
-    else if ($method === 'DELETE') {
-      // delete product(s)
-      var_dump(['STATUS' => 'DELETED']);
+    if ($method === 'DELETE') {
+      
+      $data = json_decode(file_get_contents("php://input"), true);
+
+      if ($data['massDelete']) {
+
+        $products->deleteAll();
+
+        http_response_code(300);
+
+      } else {
+
+        $model = ucfirst($data['type']);
+
+        require(__DIR__ . '/packages/' .$model. '.php');
+  
+        $class = 'App\\Products\\' . $model;
+  
+        $modelObj = new $class();
+  
+        
+        $sku = $data['sku'];
+        
+        $modelObj->deleteBySKU($sku);
+          
+        http_response_code(300);
+      }
     }
   }
 
